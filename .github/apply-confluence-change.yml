@@ -1,0 +1,35 @@
+name: Apply Confluence Changes
+
+on:
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: confluence-apply-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    name: Apply Confluence Updates
+    runs-on: ubuntu-latest
+    if: |
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, 'approve')
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - uses: kavinlabs/confluence-pr-doc-sync@main
+        with:
+          mode: apply
+          confluence_type: cloud
+          confluence_base_url: ${{ vars.CONFLUENCE_BASE_URL }}
+          confluence_token: ${{ secrets.CONFLUENCE_TOKEN }}
+          confluence_user: ${{ vars.CONFLUENCE_USER }}
+          page_ids: |
+            360449
+          llm_provider: openai
+          llm_model: gpt-4o
+          llm_api_key: ${{ secrets.OPENAI_API_KEY }}
