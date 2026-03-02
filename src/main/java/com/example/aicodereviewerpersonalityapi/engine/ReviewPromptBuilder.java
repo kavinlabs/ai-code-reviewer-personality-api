@@ -69,6 +69,7 @@ public class ReviewPromptBuilder {
       case OVER_ENTHUSIASTIC -> "overly positive with at most 1-2 emojis";
       case FAANG_INTERVIEWER -> "focused on complexity, edge cases, and tests";
       case STARTUP_CTO -> "pragmatic, shipping-focused, but safety-aware";
+      case VIBE_CODER -> "super casual, vibe-driven reaction, less technical breakdown, more gut-feeling commentary, no structured analysis";
     };
   }
 }
